@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор станка</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="selection-container">
+        <h2>Выберите станок</h2>
+        <select id="machineSelect">
+            <option value="">Станок</option>
+            <!-- Динамически загружаемые опции -->
+        </select>
+        <button id="view-charts">Посмотреть графики</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMachineNames();  // Загружаем названия станков при загрузке страницы
+
+            document.getElementById('view-charts').addEventListener('click', function () {
+                const machineName = document.getElementById('machineSelect').value;
+                if (machineName) {
+                    // Сохранение выбранного станка в localStorage
+                    localStorage.setItem('selectedMachine', machineName);
+                    window.location.href = `charts.html`; // Переход на страницу с графиками
+                } else {
+                    alert('Пожалуйста, выберите станок.');
+                }
+            });
+        });
+
+        function loadMachineNames() {
+            const machineSelect = document.getElementById('machineSelect');
+            if (!machineSelect) {
+                console.error('Выбранный элемент не найден.');
+                return;
+            }
+
+            fetch('/api/machines')
+                .then(response => response.json())
+                .then(machines => {
+                    machines.forEach(machine => {
+                        const option = document.createElement('option');
+                        option.value = machine.name;
+                        option.textContent = machine.displayName;
+                        machineSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching machine names:', error));
+        }
+    </script>
+</body>
+
+</html>

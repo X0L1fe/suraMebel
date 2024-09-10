@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt Charts</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="chart-container">
+        <button id="back-to-selection">Вернуться к списку станков</button>
+        <h2 id="machine-title"></h2>
+        <div class="chart-container">
+            <h2 class="chart-title">Диаграмма Гантта за час</h2>
+            <div id="chart_div_hour"></div>
+        </div>
+        <div class="chart-container">
+            <h2 class="chart-title">Диаграмма Гантта за день</h2>
+            <div id="chart_div_day"></div>
+        </div>
+        <div class="chart-container">
+            <h2 class="chart-title">Диаграмма Гантта за неделю</h2>
+            <div id="chart_div_week"></div>
+        </div>
+        <div class="chart-container">
+            <h2 class="chart-title">Диаграмма Гантта за месяц</h2>
+            <div id="chart_div_month"></div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectedMachine = localStorage.getItem('selectedMachine');
+            if (selectedMachine) {
+                document.getElementById('machine-title').textContent = `Станок: ${selectedMachine}`;
+                drawChart(`/api/machine/${selectedMachine}/hour-data`, 'chart_div_hour', 'hour');
+                drawChart(`/api/machine/${selectedMachine}/day-data`, 'chart_div_day', 'day');
+                drawChart(`/api/machine/${selectedMachine}/week-data`, 'chart_div_week', 'week');
+                drawChart(`/api/machine/${selectedMachine}/month-data`, 'chart_div_month', 'month');
+            } else {
+                console.error('Machine name is not defined');
+                alert('Станок не выбран. Пожалуйста выберите его.');
+                window.location.href = 'index.html';
+            }
+
+            document.getElementById('back-to-selection').addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "machines": [
+    {
+      "name": "ЧПУ03",
+      "modalSelector": "#device25492SettingsModal .modal-content",
+      "consumptionSelector": "#property-modal-float-10182 .value"
+    },
+    {
+      "name": "biesse Stanok_005",
+      "modalSelector": "#device37502SettingsModal .modal-content",
+      "consumptionSelector": "#property-modal-float-15927 .value"
+    }
+  ]
+}
